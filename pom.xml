@@ -13,22 +13,14 @@
 	<!-- FIXME change it to the project's website -->
 	<url>http://www.example.com</url>
 
-<<<<<<< HEAD
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
-=======
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<!-- Needed for allure-maven-plugin to specify report version -->
 		<allure.version>1.5.2</allure.version>
 		<aspectj.version>1.8.4</aspectj.version>
 	</properties>
->>>>>>> 018ea4bf622310824c42036d9faf93edc6fd0e3d
 
 	<dependencies>
 		<dependency>
@@ -122,7 +114,8 @@
 					<artifactId>jetty-maven-plugin</artifactId>
 					<version>9.2.10.v20150310</version>
 					<configuration>
-						<webAppSourceDirectory>${project.build.directory}/site/allure-maven-plugin</webAppSourceDirectory>
+						<webAppSourceDirectory>${project.build.directory}/site/allure-maven-plugin
+						</webAppSourceDirectory>
 						<stopKey>stop</stopKey>
 						<stopPort>1234</stopPort>
 					</configuration>
