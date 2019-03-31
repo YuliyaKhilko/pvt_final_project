@@ -1,5 +1,0 @@
-18:40:07,553  INFO main VkApiSteps:addWallPost:21 - Added post: post id = 480
-18:40:07,931  INFO main VkApiSteps:addWallPost:21 - Added post: post id = 481
-18:40:08,028  INFO main VkApiSteps:EditWallPost:32 - Edited post: post id = 481
-18:40:08,268  INFO main VkApiSteps:addWallPost:21 - Added post: post id = 482
-18:40:08,326  INFO main VkApiSteps:DeleteWallPost:38 - Deleted post: post id = 482
