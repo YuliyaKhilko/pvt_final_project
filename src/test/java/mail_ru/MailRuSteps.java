@@ -30,7 +30,7 @@ public class MailRuSteps {
 	private AddressBookPage addressBookPage;
 	private SendEmailPage sendEmailPage;
 	private PrepareDataFacade prepareDataFacade;
-	private static TestData testdata;
+	private static TestData testData;
 	private String emailSubject;
 	private String groupName;
 	private Boolean isEmailSentMessageDisplayed;
@@ -41,7 +41,7 @@ public class MailRuSteps {
 	public void setUp() {
 		TestDataDAO testDataDAO = new TestDataDAO();
 		testDataDAO.getConnection();
-		testdata = testDataDAO.select().get(0);
+		testData = testDataDAO.select().get(0);
 		driver = WebDriverSingleton.getDriver();
 		driver.manage().window().maximize();
 		loginPage = new LoginPage(driver);
@@ -62,7 +62,7 @@ public class MailRuSteps {
 
 	@When("^I create a new email$")
 	public void createEmail() {
-		createEmailPage.createNewEmail(testdata.getEmail(), testdata.getEmailSubject(), testdata.getEmailBody());
+		createEmailPage.createNewEmail(testData.getEmail(), testData.getEmailSubject(), testData.getEmailBody());
 	}
 
 	@And("^I send email to myself$")
@@ -106,18 +106,37 @@ public class MailRuSteps {
 	
 	@When("^I create contacts group$")
 	public void createContactsGroup() {
-		groupName = testdata.getGroupName() + System.currentTimeMillis();
+		groupName = testData.getGroupName() + System.currentTimeMillis();
 		addressBookPage.openAddressBook();
 		addressBookPage.createContactsGroup(groupName);
-		addressBookPage.addContactsToGroup(groupName, testdata.getName(), testdata.getEmail());
+		addressBookPage.addContactsToGroup(groupName, testData.getName(), testData.getEmail());
 	}
 	@And("^I Send new email to group$")
 	public void sendEmailToContactsGroup() {
-		isEmailSentMessageDisplayed = sendEmailPage.sendNewEmail(groupName, testdata.getEmailSubject(), testdata.getEmailBody());
+		isEmailSentMessageDisplayed = sendEmailPage.sendNewEmail(groupName, testData.getEmailSubject(), testData.getEmailBody());
 	}
 
 	@Then("^I see message that email is sent$")
 	public void isEmailSentMessageDisplayed() {
 		Assert.assertTrue(isEmailSentMessageDisplayed);
+	}
+	
+	@When("^I send 4 emails to my Inbox$")
+	public void sendMultipleEmailsToInbox() {
+		for (int i = 0; i < 4; i++) {
+			sendEmailPage.sendNewEmail(testData.getEmail(), testData.getEmailSubject() + i, testData.getEmailBody());
+		}
+	}
+	
+	@And("^I mark 3 emails with flag$")
+	public void markEmailsWithFlag() {
+		int numberOfEmailsToBeMarkedWithFlag = 3;
+		inboxFolder.openInboxFolder();
+		inboxFolder.markEmailWithFlag(numberOfEmailsToBeMarkedWithFlag);
+	}
+	@Then("^I see the selected emails are displayed with filled flag icon$")
+	public void checkThatEmailsAreMarkedWithFlag() {
+		int numberOfEmailsToBeMarkedWithFlag = 3;
+		Assert.assertEquals(inboxFolder.getNumberOfMarkedWithFlagEmails(), numberOfEmailsToBeMarkedWithFlag);
 	}
 }

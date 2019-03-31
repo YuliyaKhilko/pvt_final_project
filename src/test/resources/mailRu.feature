@@ -19,6 +19,11 @@ Feature: mail.ru test scenarios
  When I create contacts group
  And I Send new email to group
  Then I see message that email is sent
+ 
+# Scenario: Mark inbox emails with flag
+# When I send 4 emails to my Inbox
+# And I mark 3 emails with flag
+# Then I see the selected emails are displayed with filled flag icon
 
 # Scenario: User moves email from Spam to Inbox
 # When I create a new email 
@@ -35,10 +40,7 @@ Feature: mail.ru test scenarios
 # 
 
 # 
-# Scenario: Mark inbox emails with flag
-# When I send 4 emails to my Inbox
-# And Mark 3 emails with flag
-# Then I see the selected emails are displayed with filled flag icon
+
 # 
 # Scenario: User unflags all emails
 # When I send 4 emails to my Inbox
