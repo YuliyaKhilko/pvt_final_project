@@ -4,3 +4,6 @@
 .settings/
 myproject.log
 allure-results/
+.allure/
+allure-report/
+site/
