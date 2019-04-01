@@ -38,7 +38,6 @@ public class Page {
 	public void enterText(WebElement element, String text) {
 		element.clear();
 		element.sendKeys(text);
-		element.sendKeys(Keys.ENTER);
 	}
 
 	public void enterTinyMCEText(String text) {

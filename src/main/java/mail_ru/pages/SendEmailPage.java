@@ -1,6 +1,7 @@
 package mail_ru.pages;
 
 import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -39,6 +40,7 @@ public class SendEmailPage extends Page {
 		new WebDriverWait(driver, TIMEOUT).ignoring(ElementNotVisibleException.class).until(ExpectedConditions.visibilityOf(newEmailButton));
 		newEmailButton.click();
 		enterText(recepientField, recipient);
+		recepientField.sendKeys(Keys.ENTER);
 		enterText(subjectField, subject);
 		enterTinyMCEText(body);
 		sendButton.click();

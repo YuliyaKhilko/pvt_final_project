@@ -39,7 +39,7 @@ public class InboxFolder extends Page {
 
 	@FindBy(xpath = "(.//span[@class=\"b-datalist__empty__text\"])[1]")
 	WebElement emptyInboxLabel;
-
+	
 	public InboxFolder(WebDriver driver) {
 		super(driver);
 		PageFactory.initElements(driver, this);
@@ -94,6 +94,7 @@ public class InboxFolder extends Page {
 		openInboxFolder();
 		selectAllInboxEmails();
 		deleteAllButton.click();
+		new WebDriverWait(driver, TIMEOUT).until(ExpectedConditions.invisibilityOf(emptyInboxLabel));
 	}
 
 }
