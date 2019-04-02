@@ -8,11 +8,11 @@ import java.util.function.Predicate;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -23,6 +23,9 @@ public class Page {
 
 	@FindBy(xpath = "(//*[(@data-cache-key) and not(contains(@style,\"display: none\"))]//div[@data-group=\"selectAll\"]//div[@class=\"b-checkbox__box\"])[1]")
 	WebElement selectAllCheckbox;
+	
+	@FindBy(xpath = ".//div[@class=\"js-item-checkbox b-datalist__item__cbx\"]/div/div[@class=\"b-checkbox__box\"]")
+	List<WebElement> emailCheckboxes;
 
 	private WebElement getEmailBySubject(String subject) {
 		return driver.findElement(
@@ -37,6 +40,7 @@ public class Page {
 
 	public void enterText(WebElement element, String text) {
 		element.clear();
+		element.click();
 		element.sendKeys(text);
 	}
 
@@ -56,21 +60,18 @@ public class Page {
 	}
 
 	public List<WebElement> getListOfEmails() {
-		return driver.findElements(By.xpath(
-				".//div[@class=\"js-item-checkbox b-datalist__item__cbx\"]/div/div[@class=\"b-checkbox__box\"]"));
+		return emailCheckboxes;
 	}
 
 	public void selectAllInboxEmails() {
-		this.safe(driver -> {
-			if (selectAllCheckbox.isDisplayed()) {
-				selectAllCheckbox.click();
-				return true;
-			}
-			return false;
-		});
+		Actions action = new Actions(driver);
+        action.moveToElement(selectAllCheckbox).build().perform();
+        selectAllCheckbox.click();
+		
 	}
 
 	public void ensureHasEmailBySubject(String subject) {
+		driver.navigate().refresh();
 		this.safe(driver -> {
 			getEmailBySubject(subject).getText();
 			return true;

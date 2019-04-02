@@ -10,17 +10,17 @@ Feature: mail.ru test scenarios
  And I Save email 
  Then I see the message that email was saved to drafts 
  
- Scenario: User moves email from Inbox to Spam
- When I send email to myself
- And I move email from Inbox to Spam
- Then I see Spam is not empty
- 
  Scenario: User sends email to group of people
  When I create contacts group
  And I Send new email to group
  Then I see message that email is sent
  
- Scenario Outline: Mark inbox emails with flag
+ Scenario: User removes all emails from Inbox
+ When I send email to myself
+ And I remove all emails from inbox
+ Then I see Inbox is empty
+ 
+ Scenario Outline: User marks inbox emails with flag
  When I send <sendEmailsNumber> emails to my Inbox
  And I mark <toBeMarkedEmailsNumber> emails with flag
  Then I see <markedEmailsNumber> emails are displayed with filled flag icon
@@ -36,26 +36,12 @@ Feature: mail.ru test scenarios
  Examples:
  |sendEmailsNumber|toBeMarkedEmailsNumber|
  |3|2|
- 
- Scenario: Remove all emails from Inbox
+
+ Scenario: User moves email from Inbox to Spam
  When I send email to myself
- And I remove all emails from inbox
- Then I see Inbox is empty
-
-# Scenario: User moves email from Spam to Inbox
-# When I create a new email 
-# And I send email
-# And I move email to spam
-# And I open Spam folder
-# And I select email and move it to Inbox
-# Then I open Inbox folder and see the email from Spam
-# 
-# Scenario: Create group of people
-# When I create contacts group
-# Then I see group is added to the list of groups
-# 
-
-# 
+ And I move email from Inbox to Spam
+ Then I see Spam is not empty
+ 
 
 
  

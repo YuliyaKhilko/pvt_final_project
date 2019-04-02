@@ -14,6 +14,7 @@ import org.openqa.selenium.WebDriver;
 import mail_ru.webdriver.WebDriverSingleton;
 
 
+
 public class ScreenshotMaker {
 	private WebDriver driver;
 	private String folderName;
@@ -36,11 +37,4 @@ public class ScreenshotMaker {
 			e.printStackTrace();
 		}
 	}
-//	public void attachScreebshot(File screenshot) {
-//		Path content = Paths.get("path-to-my-attachment-contnet");
-//		try (InputStream is = Files.newInputStream(content)) {
-//		    Allure.addAttachemnt("My attachment", is);
-//		}
-//	}
-  
 }

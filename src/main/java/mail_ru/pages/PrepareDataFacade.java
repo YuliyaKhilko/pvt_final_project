@@ -31,7 +31,7 @@ public class PrepareDataFacade {
 	
 	public void emptyFolders() {
 		login();
-		inboxFolder.emptyInboxFolder();
+		inboxFolder.deleteAllEmailsFromInbox();
 		spamFolder.emptySpamFolder();
 	}
 	

@@ -53,7 +53,7 @@ public class AddressBookPage extends Page {
 
 	public void createContactsGroup(String groupName) {
 		createGroupLink.click();
-		groupNamefield.sendKeys(groupName);
+		enterText(groupNamefield, groupName);
 		confirmCreateGroup.click();
 		this.safe(driver -> {
 			getGroupLink(groupName).getText();

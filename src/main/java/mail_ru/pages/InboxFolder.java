@@ -2,14 +2,13 @@ package mail_ru.pages;
 
 import java.util.List;
 
-import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class InboxFolder extends Page {
@@ -35,10 +34,20 @@ public class InboxFolder extends Page {
 	WebElement unflagAll;
 
 	@FindBy(xpath = "(.//div[@data-name=\"remove\"])[1]")
-	WebElement deleteAllButton;
+	WebElement deleteButton;
 
 	@FindBy(xpath = "(.//span[@class=\"b-datalist__empty__text\"])[1]")
 	WebElement emptyInboxLabel;
+	
+	@FindBy(xpath = "//div[@class=\"js-item-checkbox b-datalist__item__cbx\"]")
+		    List<WebElement> emailCheckboxes;
+	
+	@FindBy(xpath = ".//div[@data-act=\"flag\" and contains(@class, \"b-flag_yes\")]")
+	List<WebElement> flaggedEmails;
+	
+	@FindBy (xpath = ".//div[@data-act=\"flag\" and not(contains(@class, \"b-flag_yes\"))]")
+	List<WebElement> notFlaggedEmails;
+	
 	
 	public InboxFolder(WebDriver driver) {
 		super(driver);
@@ -55,33 +64,29 @@ public class InboxFolder extends Page {
 	}
 
 	public void moveFirstEmailToSpam() {
-		this.safe(driver -> {
-			firstEmailCheckbox.click();
-			return true;
-		});
+		Actions action = new Actions(driver);
+        action.moveToElement(emailCheckboxes.get(0)).build().perform();
+        emailCheckboxes.get(0).click();
 		moveToSpamButton.click();
-		confirmMoveToSpam.click();
+		try{
+			new WebDriverWait(driver, TIMEOUT).until(ExpectedConditions.visibilityOf(confirmMoveToSpam));
+			confirmMoveToSpam.click();
+		} catch(NoSuchElementException ex) {
+			ex.printStackTrace();
+		}
+		
 	}
 
 	public void markEmailWithFlag(int numberofEmailsToBeMarked) {
-		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver);
 
-		wait.until(driver -> {
-			List<WebElement> notMarkedWithFlags = driver
-					.findElements(By.xpath(".//div[@data-act=\"flag\" and not(contains(@class, \"b-flag_yes\"))]"));
-			return notMarkedWithFlags.size() > 0;
-		});
-
-		List<WebElement> notMarkedWithFlags = driver
-				.findElements(By.xpath(".//div[@data-act=\"flag\" and not(contains(@class, \"b-flag_yes\"))]"));
-
+		driver.navigate().refresh();
 		for (int i = 0; i <= numberofEmailsToBeMarked - 1; i++) {
-			notMarkedWithFlags.get(i).click();
+			notFlaggedEmails.get(i).click();
 		}
 	}
 
-	public int getNumberOfMarkedWithFlagEmails() {
-		return driver.findElements(By.xpath(".//div[@data-act=\"flag\" and contains(@class, \"b-flag_yes\")]")).size();
+	public int getNumberOfFlaggedEmails() {
+		return flaggedEmails.size();
 	}
 
 	public void unflagAllInboxEmails() {
@@ -90,10 +95,10 @@ public class InboxFolder extends Page {
 		unflagAll.click();
 	}
 
-	public void emptyInboxFolder() {
+	public void deleteAllEmailsFromInbox() {
 		openInboxFolder();
 		selectAllInboxEmails();
-		deleteAllButton.click();
+		deleteButton.click();
 		new WebDriverWait(driver, TIMEOUT).until(ExpectedConditions.invisibilityOf(emptyInboxLabel));
 	}
 

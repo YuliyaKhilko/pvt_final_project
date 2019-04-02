@@ -19,7 +19,6 @@ import mail_ru.pages.PrepareDataFacade;
 import mail_ru.pages.SendEmailPage;
 import mail_ru.pages.SpamFolder;
 import mail_ru.webdriver.WebDriverSingleton;
-import ru.yandex.qatools.allure.annotations.Attachment;
 import tools.ScreenshotMaker;
 
 public class MailRuSteps {
@@ -70,10 +69,6 @@ public class MailRuSteps {
 		loginPage.logout();
 		WebDriverSingleton.closeWebBrowser();
 	}
-//	@Attachment(value = "Page screenshot", type = "image/png")
-//	public byte[] saveScreenshot(byte[] screenShot) {
-//	    return screenShot;
-//	}
 
 	@When("^I create a new email$")
 	public void createEmail() {
@@ -153,7 +148,7 @@ public class MailRuSteps {
 
 	@Then("^I see (\\d+) emails are displayed with filled flag icon$")
 	public void checkThatEmailsAreMarkedWithFlag(int flaggedEmailsNumber) {
-		Assert.assertEquals(inboxFolder.getNumberOfMarkedWithFlagEmails(), flaggedEmailsNumber);
+		Assert.assertEquals(inboxFolder.getNumberOfFlaggedEmails(), flaggedEmailsNumber);
 	}
 
 	@And("^I select all emails and unflag them$")
@@ -163,12 +158,12 @@ public class MailRuSteps {
 
 	@Then("^I see that there no emails marked with flag$")
 	public void checkNoFlaggedEmails() {
-		Assert.assertTrue(inboxFolder.getNumberOfMarkedWithFlagEmails() == 0);
+		Assert.assertTrue(inboxFolder.getNumberOfFlaggedEmails() == 0);
 	}
 
 	@And("^I remove all emails from inbox$")
 	public void emptyInbox() {
-		inboxFolder.emptyInboxFolder();
+		inboxFolder.deleteAllEmailsFromInbox();
 	}
 
 	@Then("^I see Inbox is empty$")

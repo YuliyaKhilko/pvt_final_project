@@ -2,7 +2,6 @@ package mail_ru.pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -33,8 +32,6 @@ public class LoginPage extends Page {
 
 	public void login(String login, String password) {
 		new WebDriverWait(driver, TIMEOUT).until(ExpectedConditions.visibilityOf(loginField));
-		Actions builder = new Actions(driver);
-		builder.moveToElement(loginField).build().perform();
 		enterText(loginField, login);
 		enterText(passwordField, password);
 		loginButton.click();
