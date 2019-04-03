@@ -66,7 +66,10 @@ public class Page {
 	public void selectAllInboxEmails() {
 		Actions action = new Actions(driver);
         action.moveToElement(selectAllCheckbox).build().perform();
-        selectAllCheckbox.click();
+        this.safe(driver -> {
+        	selectAllCheckbox.click();
+        	return true;
+        });
 		
 	}
 

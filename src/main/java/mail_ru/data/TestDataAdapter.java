@@ -3,6 +3,8 @@ package mail_ru.data;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+//attempt to apply adapter pattern
+
 public class TestDataAdapter implements TestData {
 	private String login;
 	private String password;
